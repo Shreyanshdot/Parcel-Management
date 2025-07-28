@@ -1,0 +1,82 @@
+<form [formGroup]="bookingForm" (ngSubmit)="submitForm()">
+
+    <div class="form-section">
+
+        <h3>Sender Info</h3>
+        <p><strong>Name:</strong> {{ user.name }}</p>
+        <p><strong>Address:</strong> {{ user.address }}</p>
+        <p><strong>Contact:</strong> {{ user.contact }}</p>
+    </div>
+
+    <div class="form-section">
+
+        <h3>Receiver Info</h3>
+        <input formControlName="receiverName" placeholder="Receiver Name" />
+        <div *ngIf="bookingForm.controls['receiverName'].invalid && bookingForm.controls['receiverName'].touched"
+            class="error-message">
+            Receiver Name is required (min 3 chars).
+        </div>
+        <input formControlName="receiverAddress" placeholder="Receiver Address" />
+        <!-- <input formControlName="receiverPin" placeholder="Receiver PIN" type="number" /> -->
+        <input formControlName="receiverPin" placeholder="Receiver PIN" type="text" maxlength="6" pattern="[0-9]*"
+            inputmode="numeric" />
+
+        <div *ngIf="bookingForm.controls['receiverPin'].invalid && bookingForm.controls['receiverPin'].touched"
+            class="error-message">
+            Enter a valid 6-digit PIN code.
+        </div>
+        <div class="mobile-group">
+            <span class="country-code">+91</span>
+            <input id="receiverMobile" formControlName="receiverMobile" placeholder="10-digit Mobile Number" type="tel"
+                maxlength="10" pattern="^[0-9]{10}$" inputmode="numeric" style="margin-left: 4px;" />
+        </div>
+
+        <!-- Error message if invalid -->
+        <div *ngIf="bookingForm.controls['receiverMobile'].invalid && bookingForm.controls['receiverMobile'].touched"
+            class="error-message" style="color: red; font-size: 12px;">
+            Please enter a valid 10-digit mobile number.
+        </div>
+    </div>
+
+    <div class="form-section">
+
+
+        <h3>Parcel Info</h3>
+        <input formControlName="weight" placeholder="Weight in Grams" type="number" />
+        <div *ngIf="bookingForm.controls['weight'].invalid && bookingForm.controls['weight'].touched"
+            class="error-message">
+            Weight must be a positive number.
+        </div>
+        <input formControlName="contents" placeholder="Parcel Contents" />
+
+        <select formControlName="deliveryType">
+            <!-- <option value="">-- Select Delivery Type --</option> -->
+            <option value="" disabled selected hidden>-- Select Delivery Type --</option>
+
+            <option>Standard</option>
+            <option>Express</option>
+            <option>Same-Day</option>
+        </select>
+
+        <select formControlName="packing">
+            <option value="" disabled selected hidden>-- Select Packing --</option>
+            <option>Basic</option>
+            <option>Premium</option>
+        </select>
+
+        <label for="pickupTime">Parcel Pickup Time:</label>
+        <input id="pickupTime" formControlName="pickupTime" type="datetime-local" />
+
+        <label for="dropoffTime">Parcel Dropoff Time:</label>
+        <input id="dropoffTime" formControlName="dropoffTime" type="datetime-local" />
+
+
+        <!-- <p class="total">Total Cost: ₹{{ totalCost }}</p> -->
+        <p class="total" *ngIf="totalCost > 0">Total Cost: ₹{{ totalCost }}</p>
+
+
+        <div class="button-wrapper">
+            <button type="submit">Book Parcel</button>
+        </div>
+    </div>
+</form>
