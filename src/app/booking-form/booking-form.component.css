@@ -169,3 +169,14 @@ select:focus {
     outline: none;
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
 }
+
+.cost-display {
+    margin-top: 16px;
+    padding: 10px 14px;
+    border-left: 4px solid #007bff;
+    background-color: #f0f8ff;
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    width: fit-content;
+}

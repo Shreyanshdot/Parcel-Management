@@ -34,7 +34,7 @@
         <!-- Error message if invalid -->
         <div *ngIf="bookingForm.controls['receiverMobile'].invalid && bookingForm.controls['receiverMobile'].touched"
             class="error-message" style="color: red; font-size: 12px;">
-            Please enter a valid 10-digit mobile number.
+            Mobile number must start with 6-9 and be 10 digits long.
         </div>
     </div>
 
@@ -72,7 +72,19 @@
 
 
         <!-- <p class="total">Total Cost: ₹{{ totalCost }}</p> -->
-        <p class="total" *ngIf="totalCost > 0">Total Cost: ₹{{ totalCost }}</p>
+        <!-- <p class="total" *ngIf="totalCost > 0">Total Cost: ₹{{ totalCost }}</p> -->
+        <!-- <p>Total Cost: ₹{{ totalCost }}</p> -->
+        <!-- ✅ Total Cost display -->
+        <!-- Debug View -->
+        <!-- <pre>{{ bookingForm.value | json }}</pre>
+        <pre>Total: {{ totalCost }}</pre> -->
+
+        <!-- Final Display -->
+        <div *ngIf="totalCost !== null">
+            <h4 style="color: green;">Estimated Total Cost: ₹{{ totalCost }}</h4>
+        </div>
+
+
 
 
         <div class="button-wrapper">

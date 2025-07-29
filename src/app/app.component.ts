@@ -14,11 +14,13 @@
 
 import { Component } from '@angular/core';
 import { BookingFormComponent } from './booking-form/booking-form.component';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [BookingFormComponent], // ✅ import your booking form here
-  template: `<app-booking-form></app-booking-form>`,
+  // imports: [BookingFormComponent, RouterOutlet], // ✅ import your booking form here
+  imports: [RouterModule], // ✅ import your booking form here
+  template: `<router-outlet></router-outlet>`, // ✅ dynamic route rendering
 })
 export class AppComponent { }

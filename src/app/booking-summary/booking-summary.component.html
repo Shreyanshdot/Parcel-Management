@@ -1,1 +1,35 @@
-<p>booking-summary works!</p>
+<div class="summary-card" *ngIf="bookingData">
+    <h2>📦 Booking Confirmed!</h2>
+    <p><strong>Booking ID:</strong> {{ bookingData.bookingId }}</p>
+
+    <h3>Sender Info</h3>
+    <p><strong>Name:</strong> {{ bookingData.sender.name }}</p>
+    <p><strong>Address:</strong> {{ bookingData.sender.address }}</p>
+    <p><strong>Contact:</strong> {{ bookingData.sender.contact }}</p>
+
+    <h3>Receiver Info</h3>
+    <p><strong>Name:</strong> {{ bookingData.receiverName }}</p>
+    <p><strong>Address:</strong> {{ bookingData.receiverAddress }}</p>
+    <p><strong>PIN:</strong> {{ bookingData.receiverPin }}</p>
+    <p><strong>Mobile:</strong> +91{{ bookingData.receiverMobile }}</p>
+
+    <h3>Parcel Info</h3>
+    <p><strong>Weight:</strong> {{ bookingData.weight }} grams</p>
+    <p><strong>Contents:</strong> {{ bookingData.contents }}</p>
+    <p><strong>Delivery Type:</strong> {{ bookingData.deliveryType }}</p>
+    <p><strong>Packing:</strong> {{ bookingData.packing }}</p>
+    <p><strong>Pickup Time:</strong> {{ bookingData.pickupTime }}</p>
+    <p><strong>Dropoff Time:</strong> {{ bookingData.dropoffTime }}</p>
+
+    <h3>Cost Summary</h3>
+    <p><strong>Total Cost:</strong> ₹{{ bookingData.totalCost }}</p>
+    <!-- <p><strong>Total Cost:</strong> ₹{{ summary.totalCost }}</p> -->
+    <p><strong>Payment Time:</strong> {{ bookingData.paymentTime || formattedDate }}</p>
+
+    <button class="payment-btn">Proceed to Payment</button>
+
+    <div style="text-align: center; margin-top: 20px;">
+        <button (click)="router.navigate(['/'])" class="back-button">🏠 Back to Home</button>
+    </div>
+
+</div>
