@@ -1,0 +1,43 @@
+<!-- <div class="cancel-card">
+    <h2>Cancel Parcel Booking</h2>
+    <form [formGroup]="cancelForm" (ngSubmit)="cancelBooking()">
+        <input formControlName="bookingId" placeholder="Enter Booking ID" type="text" />
+        <div *ngIf="cancelForm.controls['bookingId'].invalid && cancelForm.controls['bookingId'].touched" class="error">
+            Please enter a valid numeric Booking ID
+        </div>
+        <button type="submit" [disabled]="cancelForm.invalid">Cancel Booking</button>
+    </form>
+
+    <div *ngIf="message" [ngClass]="{ success: isSuccess, error: !isSuccess }">
+        {{ message }}
+    </div>
+</div> -->
+
+<!-- // Hard Coded Data to test Booking Cancellation  -->
+<!-- <div class="cancel-wrapper">
+    <h2>Cancel Parcel Booking</h2>
+
+    <input [(ngModel)]="bookingId" placeholder="Enter Booking ID" />
+
+    <button (click)="cancelBooking()">Cancel Booking</button>
+
+    <div *ngIf="message" [ngStyle]="{ color: success ? 'green' : 'red', marginTop: '10px' }">
+        {{ message }}
+    </div>
+</div> -->
+
+<div class="cancel-container">
+    <div class="cancel-card">
+        <h2>Cancel Parcel Booking</h2>
+
+        <label for="bookingId">Enter Booking ID:</label>
+        <input id="bookingId" [(ngModel)]="bookingId" placeholder="e.g., BK123456" class="booking-input" />
+
+        <button (click)="cancelBooking()" class="cancel-button">
+            Cancel Booking
+        </button>
+
+        <div *ngIf="message" [ngClass]="{ success: success, error: !success }" class="message-box">
+            {{ message }}
+        </div>
+    </div>
