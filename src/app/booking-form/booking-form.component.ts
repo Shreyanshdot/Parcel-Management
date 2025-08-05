@@ -28,6 +28,9 @@ const packingChargeMap: Record<PackingType, number> = {
 export class BookingFormComponent implements OnInit {
   bookingForm!: FormGroup;
   totalCost: number = 0;
+  minDateTime!: string;
+  dropoffMinDateTime: string = '';
+
 
   user = {
     name: 'Shreyansh Dawar',
@@ -37,7 +40,7 @@ export class BookingFormComponent implements OnInit {
 
   constructor(private fb: FormBuilder, private router: Router) { }
 
-  ngOnInit() {
+  ngOnInit() : void {
     this.bookingForm = this.fb.group({
       receiverName: ['', [Validators.required, Validators.minLength(3)]],
       receiverAddress: ['', Validators.required],
@@ -60,6 +63,34 @@ export class BookingFormComponent implements OnInit {
       .subscribe(() => {
         this.calculateCost();
       });
+
+    // Set min date-time to now in proper format for input
+    const now = new Date();
+    this.minDateTime = this.formatDateToInputValue(now);
+  }
+  updateDropoffMin(): void {
+    const pickupValue = this.bookingForm.get('pickupTime')?.value;
+    if (pickupValue) {
+      const pickupDate = new Date(pickupValue);
+      const dropoffMinDate = new Date(pickupDate.getTime() + 6 * 60 * 60 * 1000); // +6 hours
+      this.dropoffMinDateTime = this.formatDateToInputValue(dropoffMinDate);
+
+      // Optional: Reset dropoff if it's now invalid
+      const currentDropoff = new Date(this.bookingForm.get('dropoffTime')?.value);
+      if (currentDropoff < dropoffMinDate) {
+        this.bookingForm.get('dropoffTime')?.setValue('');
+      }
+    }
+  }
+
+  private formatDateToInputValue(date: Date): string {
+    const pad = (n: number) => n.toString().padStart(2, '0');
+    const yyyy = date.getFullYear();
+    const MM = pad(date.getMonth() + 1);
+    const dd = pad(date.getDate());
+    const hh = pad(date.getHours());
+    const mm = pad(date.getMinutes());
+    return `${yyyy}-${MM}-${dd}T${hh}:${mm}`;
   }
 
   calculateCost() {
@@ -85,24 +116,40 @@ export class BookingFormComponent implements OnInit {
 
   submitForm() {
     if (this.bookingForm.valid) {
-      const totalCost = this.calculateCost(); // Get latest cost
-
+      const totalCost = this.calculateCost();
       const bookingId = 'BK' + Date.now();
       const paymentTime = new Date().toLocaleString();
+
+      const formValue = this.bookingForm.value;
 
       const bookingData = {
         bookingId,
         sender: this.user,
-        ...this.bookingForm.value,
-        totalCost,
+        receiver: {
+          name: formValue.receiverName,
+          address: formValue.receiverAddress,
+          pin: formValue.receiverPin,
+          mobile: formValue.receiverMobile
+        },
+        parcel: {
+          weight: formValue.weight,
+          contents: formValue.contents,
+          deliveryType: formValue.deliveryType,
+          packing: formValue.packing,
+          pickupTime: formValue.pickupTime,
+          dropoffTime: formValue.dropoffTime
+        },
+        cost: {
+          total: totalCost
+        },
         paymentTime
       };
 
       console.log('Navigating with data:', bookingData);
-
       this.router.navigate(['/booking-summary'], { state: { data: bookingData } });
     }
   }
+
 
 
 }

@@ -1,35 +1,51 @@
-<div class="summary-card" *ngIf="bookingData">
-    <h2>📦 Booking Confirmed!</h2>
-    <p><strong>Booking ID:</strong> {{ bookingData.bookingId }}</p>
+<div class="summary-container" *ngIf="bookingData">
+    <h2 class="confirmation"><span>📦</span> Booking Confirmed!</h2>
+    <p class="booking-id"><strong>Booking ID:</strong> {{ bookingData.bookingId }}</p>
 
-    <h3>Sender Info</h3>
-    <p><strong>Name:</strong> {{ bookingData.sender.name }}</p>
-    <p><strong>Address:</strong> {{ bookingData.sender.address }}</p>
-    <p><strong>Contact:</strong> {{ bookingData.sender.contact }}</p>
+    <div class="info-row">
+        <!-- Sender Info -->
+        <div class="info-card">
+            <h3>Sender Info</h3>
+            <p><strong>Name:</strong> {{ bookingData.sender?.name }}</p>
+            <p><strong>Address:</strong> {{ bookingData.sender?.address }}</p>
+            <p><strong>Contact:</strong> {{ bookingData.sender?.contact }}</p>
+        </div>
 
-    <h3>Receiver Info</h3>
-    <p><strong>Name:</strong> {{ bookingData.receiverName }}</p>
-    <p><strong>Address:</strong> {{ bookingData.receiverAddress }}</p>
-    <p><strong>PIN:</strong> {{ bookingData.receiverPin }}</p>
-    <p><strong>Mobile:</strong> +91{{ bookingData.receiverMobile }}</p>
+        <!-- Receiver Info -->
+        <div class="info-card">
+            <h3>Receiver Info</h3>
+            <p><strong>Name:</strong> {{ bookingData.receiver?.name }}</p>
+            <p><strong>Address:</strong> {{ bookingData.receiver?.address }}</p>
+            <p><strong>PIN:</strong> {{ bookingData.receiver?.pin }}</p>
+            <p><strong>Mobile:</strong> {{ bookingData.receiver?.mobile }}</p>
+        </div>
 
-    <h3>Parcel Info</h3>
-    <p><strong>Weight:</strong> {{ bookingData.weight }} grams</p>
-    <p><strong>Contents:</strong> {{ bookingData.contents }}</p>
-    <p><strong>Delivery Type:</strong> {{ bookingData.deliveryType }}</p>
-    <p><strong>Packing:</strong> {{ bookingData.packing }}</p>
-    <p><strong>Pickup Time:</strong> {{ bookingData.pickupTime }}</p>
-    <p><strong>Dropoff Time:</strong> {{ bookingData.dropoffTime }}</p>
-
-    <h3>Cost Summary</h3>
-    <p><strong>Total Cost:</strong> ₹{{ bookingData.totalCost }}</p>
-    <!-- <p><strong>Total Cost:</strong> ₹{{ summary.totalCost }}</p> -->
-    <p><strong>Payment Time:</strong> {{ bookingData.paymentTime || formattedDate }}</p>
-
-    <button class="payment-btn">Proceed to Payment</button>
-
-    <div style="text-align: center; margin-top: 20px;">
-        <button (click)="router.navigate(['/'])" class="back-button">🏠 Back to Home</button>
+        <!-- Parcel Info -->
+        <div class="info-card">
+            <h3>Parcel Info</h3>
+            <p><strong>Weight:</strong> {{ bookingData.parcel?.weight }}</p>
+            <p><strong>Contents:</strong> {{ bookingData.parcel?.contents }}</p>
+            <p><strong>Delivery Type:</strong> {{ bookingData.parcel?.deliveryType }}</p>
+            <p><strong>Packing:</strong> {{ bookingData.parcel?.packing }}</p>
+            <p><strong>Pickup:</strong> {{ bookingData.parcel?.pickupTime }}</p>
+            <p><strong>Dropoff:</strong> {{ bookingData.parcel?.dropoffTime }}</p>
+        </div>
     </div>
 
+    <!-- Cost and Time -->
+    <div class="cost-summary">
+        <p><strong>Total Cost:</strong> ₹{{ bookingData.cost?.total }}</p>
+        <p><strong>Payment Time:</strong> {{ formattedDate }}</p>
+    </div>
+
+    <!-- Actions -->
+    <div class="action-buttons">
+        <button class="btn btn-green" (click)="goToPayment()">Proceed to Payment</button>
+        <button class="btn btn-gray" (click)="goHome()">Back to Home</button>
+    </div>
+</div>
+
+<!-- Optional fallback -->
+<div *ngIf="!bookingData" class="summary-container">
+    <p style="text-align:center; color: red;">No booking data found.</p>
 </div>
