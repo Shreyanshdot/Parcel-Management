@@ -40,7 +40,7 @@ export class BookingFormComponent implements OnInit {
 
   constructor(private fb: FormBuilder, private router: Router) { }
 
-  ngOnInit() : void {
+  ngOnInit(): void {
     this.bookingForm = this.fb.group({
       receiverName: ['', [Validators.required, Validators.minLength(3)]],
       receiverAddress: ['', Validators.required],
@@ -122,6 +122,12 @@ export class BookingFormComponent implements OnInit {
 
       const formValue = this.bookingForm.value;
 
+      const formatDateTimeWithSeconds = (dt: string) =>
+        dt && dt.length === 16 ? dt + ':00' : dt;
+      // const formatDateTimeWithSeconds = (dt: string) =>
+      //   dt && dt.length === 16 ? dt + ':00' : dt || '';
+
+
       const bookingData = {
         bookingId,
         sender: this.user,
@@ -136,8 +142,10 @@ export class BookingFormComponent implements OnInit {
           contents: formValue.contents,
           deliveryType: formValue.deliveryType,
           packing: formValue.packing,
-          pickupTime: formValue.pickupTime,
-          dropoffTime: formValue.dropoffTime
+          // pickupTime: formValue.pickupTime,
+          // dropoffTime: formValue.dropoffTime
+          pickupTime: formatDateTimeWithSeconds(formValue.pickupTime),
+          dropoffTime: formatDateTimeWithSeconds(formValue.dropoffTime)
         },
         cost: {
           total: totalCost
